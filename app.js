@@ -1,6 +1,7 @@
 const express = require('express')
 const Joi = require('joi')
 const mysql = require('mysql')
+const cors = require('cors')
 require('dotenv').config()
 
 
@@ -30,6 +31,7 @@ const schema = Joi.object( {
 })
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/customers', (req, res) => {
     // res.send('hello world')
@@ -111,6 +113,19 @@ app.delete('/api/customer/:id', (req, res) => {
     customers.splice(index, 1)
     res.send(customer)
 })
+
+
+
+app.get('/api/items', (req, res) => {
+    let sql = `SELECT * FROM item`;
+    con.query(sql, (error, results, fields) => {
+        if (error) {
+          return console.error(error.message);
+        }
+        console.log(results);
+        // return res.status(200).json(results);
+      });
+});
 
 
 
